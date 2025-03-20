@@ -1,0 +1,27 @@
+import java.util.Arrays;
+
+public class Solution {
+    public int maximumUnits(int[][] boxTypes, int truckSize) {
+        // Sort the boxTypes array based on the number of units per box in descending order
+        Arrays.sort(boxTypes, (a, b) -> b[1] - a[1]);
+
+        int totalUnits = 0;
+        
+        for (int[] boxType : boxTypes) {
+            int numberOfBoxes = boxType[0];
+            int unitsPerBox = boxType[1];
+            
+            // If the truck can take all the boxes of this type
+            if (truckSize >= numberOfBoxes) {
+                totalUnits += numberOfBoxes * unitsPerBox;
+                truckSize -= numberOfBoxes;  // Decrease the truck size
+            } else {
+                // If there is only room for some boxes of this type
+                totalUnits += truckSize * unitsPerBox;
+                break;  // The truck is full
+            }
+        }
+
+        return totalUnits;
+    }
+}
